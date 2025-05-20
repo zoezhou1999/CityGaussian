@@ -161,7 +161,7 @@ def get_default_lp():
     lp.white_background = False
     lp.data_device = "cuda"
     lp.eval = False
-    lp.llffhold = 8
+    lp.llffhold = 50
     # data partitioning
     lp.pretrain_path = None  # path to coarse global model
     lp.num_threshold = 25_000  # threshold of point number

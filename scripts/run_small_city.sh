@@ -8,22 +8,22 @@ get_available_gpu() {
 TEST_PATH="/shared/hongze/3dgs/small_city/val"
 
 COARSE_CONFIG="small_city_coarse"
-CONFIG="small_city_c25_r-1"
+CONFIG="small_city_c25_r-1_515"
 
 out_name="val"  # i.e. TEST_PATH.split('/')[-1]
 max_block_id=24  # i.e. x_dim * y_dim * z_dim - 1
 port=4041
 
-# # train coarse global gaussian model
-# gpu_id=$(get_available_gpu)
-# echo "GPU $gpu_id is available."
-# CUDA_VISIBLE_DEVICES=$gpu_id python train_large.py --config config/$COARSE_CONFIG.yaml
+# train coarse global gaussian model
+gpu_id=$(get_available_gpu)
+echo "GPU $gpu_id is available."
+CUDA_VISIBLE_DEVICES=$gpu_id python train_large.py --config config/$COARSE_CONFIG.yaml
 
-# train CityGaussian
-# obtain data partitioning
-# gpu_id=$(get_available_gpu)
-# echo "GPU $gpu_id is available."
-# CUDA_VISIBLE_DEVICES=$gpu_id python data_partition.py --config config/$CONFIG.yaml
+# # train CityGaussian
+# # obtain data partitioning
+gpu_id=$(get_available_gpu)
+echo "GPU $gpu_id is available."
+CUDA_VISIBLE_DEVICES=$gpu_id python data_partition.py --config config/$CONFIG.yaml
 
 # optimize each block, please adjust block number according to config
 for num in $(seq 0 $max_block_id); do
@@ -45,15 +45,15 @@ for num in $(seq 0 $max_block_id); do
 done
 wait
 
-# merge the blocks
-# gpu_id=$(get_available_gpu)
-# echo "GPU $gpu_id is available."
-# CUDA_VISIBLE_DEVICES=$gpu_id python merge.py --config config/$CONFIG.yaml
+merge the blocks
+gpu_id=$(get_available_gpu)
+echo "GPU $gpu_id is available."
+CUDA_VISIBLE_DEVICES=$gpu_id python merge.py --config config/$CONFIG.yaml
 
-# # rendering and evaluation, add --load_vq in rendering if you want to load compressed model
-# gpu_id=$(get_available_gpu)
-# echo "GPU $gpu_id is available."
-# CUDA_VISIBLE_DEVICES=$gpu_id python render_large.py --config config/$CONFIG.yaml --custom_test $TEST_PATH
+# rendering and evaluation, add --load_vq in rendering if you want to load compressed model
+gpu_id=$(get_available_gpu)
+echo "GPU $gpu_id is available."
+CUDA_VISIBLE_DEVICES=$gpu_id python render_large.py --config config/$CONFIG.yaml --custom_test $TEST_PATH
 
 # gpu_id=$(get_available_gpu)
 # echo "GPU $gpu_id is available."

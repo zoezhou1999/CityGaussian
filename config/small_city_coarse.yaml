@@ -11,7 +11,7 @@ model_params: {
     resolution: -1,  # adjust it to your downsample factor. -1 means downsampling longest side of image to 1,600 pixels
     white_background: False,
     data_device: "cpu",
-    eval: False,
+    eval: True,
 }
 
 # Pipeline Parameters

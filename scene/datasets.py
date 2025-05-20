@@ -36,7 +36,9 @@ class GSDataset(Dataset):
             "full_proj_transform": viewpoint_cam.full_proj_transform,
         }
         y = viewpoint_cam.original_image
-        
+        if viewpoint_cam.gt_alpha_mask is not None:
+            x["mask"] = viewpoint_cam.gt_alpha_mask
+            
         return x, y
 
 class CacheDataLoader(torch.utils.data.DataLoader):

@@ -107,7 +107,11 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, refilter
             # Loss
             start = time.time()
             gt_image = gt_image.cuda()
-            Ll1 = l1_loss(image, gt_image)
+            if "mask" in cam_info:
+                gt_mask = cam_info["mask"].cuda()
+                Ll1 = l1_loss(image * gt_mask, gt_image)
+            else:  
+                Ll1 = l1_loss(image, gt_image)
             loss = (1.0 - opt.lambda_dssim) * Ll1 + opt.lambda_dssim * (1.0 - ssim(image, gt_image))
             loss.backward()
             end = time.time()

@@ -51,6 +51,9 @@ def loadCam(args, id, cam_info, resolution_scale):
 
     pil_image.close()
     
+    if cam_info.mask is not None:
+        loaded_mask = PILtoTorch(cam_info.mask, resolution)
+    
     return Camera(colmap_id=cam_info.uid, R=cam_info.R, T=cam_info.T, 
                   FoVx=cam_info.FovX, FoVy=cam_info.FovY, 
                   image=gt_image, gt_alpha_mask=loaded_mask,

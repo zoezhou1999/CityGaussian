@@ -45,6 +45,8 @@ class Camera(nn.Module):
         else:
             self.original_image *= torch.ones((1, self.image_height, self.image_width), device=self.data_device)
 
+        self.gt_alpha_mask = gt_alpha_mask
+        
         self.zfar = 100.0
         self.znear = 0.01
 
